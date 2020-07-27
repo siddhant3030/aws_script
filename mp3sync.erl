@@ -1,5 +1,5 @@
 -module(mp3sync).
--export([find_sync/1]).
+-export([find_sync/2]).
 
 
 
