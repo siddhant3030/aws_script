@@ -1,18 +1,31 @@
 defmodule MapReduce do
-  @moduledoc """
-  Documentation for `MapReduce`.
-  """
+  require InputReader
+  require Partition
 
-  @doc """
-  Hello world.
+  def main(args) do
+    args |> parse_args |> pipeline
+  end
 
-  ## Examples
+  defp parse_args(args) do
+    {options, _, _} =
+      OptionParser.parse(args,
+        switches: [file: :string]
+      )
 
-      iex> MapReduce.hello()
-      :world
+    options
+  end
 
-  """
-  def hello do
-    :world
+  defp pipeline([]) do
+    IO.puts("No file given")
+  end
+
+  defp pipeline(options) do
+    partition = elem(Partition.start_link(), 1)
+    InputReader.reader("#{options[:file]}", partition)
+    forever()
+  end
+
+  defp forever do
+    forever()
   end
 end
